@@ -29,7 +29,6 @@ class ValidaFormulario{
     // retorna true se os dados estiverem ok
     verificaDados(){
         this.verificaEndereco();
-        console.log('saiu da promise');
         if(!this.verificaVazio()) this.criaMensagem('Campo vazio detectado', true);
         if(!this.verificaIdade()) this.criaMensagem('Proibido cadastro de menores de idade', true);
         if(!this.verificaCpf()) this.criaMensagem('Cpf deve ser válido', true);
@@ -95,40 +94,35 @@ class ValidaFormulario{
         return false;
     }
 
-    verificaEndereco(){ //need some fixes
-        const validaEndereco = new ValidaEndereco(this.cep.value, this.endereco.value);
-        const dados = validaEndereco.getData();
-        const enderecoValor = this.endereco.value;
-        // this.endereco = this.endereco.toLowerCase();
-        dados.then(dado => {
-            console.log(dado);
-            console.log(dado['address'], typeof dado['address']);
-            console.log(dado['address'].toLowerCase())
-            console.log(enderecoValor);
-            if(dado['address'].toLowerCase() === enderecoValor.toLowerCase()){
-                console.log('chegou no if');
-                console.log(this);
-                // this.isValid=true
-                // console.log('passou na validação',this.isValid);
-                this.criaMensagemCampo('CEP passou na validação', this.cep);
-                this.criaMensagemCampo('Endereço passou na validação', this.endereco);
-                return true;
-            };
-            // this.isValid=false;
-            console.log('nao passou na validação',this.isValid)
-            this.criaErroCampo('CEP incopativel com o endereço', this.cep)
-            this.criaMensagem('Erro, cep inválido, verificação falhou', true)
-            return false;
-        })
-        .then(valor => {
-            console.log(this);
-            console.log(valor);
-            this.isValid = valor;
-            console.log(this.isValid)
-        })
-        .catch(this.criaMensagem('Erro, cep inválido, verificação falhou', true));
-
-        console.log(this.isValid);
+    verificaEndereco(){ 
+        if(this.cep.value === '' || this.endereco.value === ''){
+            this.criaErroCampo('CEP nulo', this.cep);
+            this.criaErroCampo('Endereço nulo', this.endereco);
+            this.criaMensagem('Validação de endereço falhou', true);
+        }
+        else{
+            const baseUrl = 'https://cep.awesomeapi.com.br/json/'
+            const cep = this.cep.value;
+            let endereco = this.endereco.value;
+            endereco = endereco.toLowerCase();
+            fetch(baseUrl+cep)
+            .then(data => data.json())
+            .then(data => {
+                const enderecoData = data['address'].toLowerCase();
+                if(endereco === enderecoData){
+                    this.criaMensagemCampo('CEP validado', this.cep);
+                    this.criaMensagemCampo('Endereço validado', this.endereco);
+                }
+                else{
+                    this.criaErroCampo('Endereço inválido', this.endereco);
+                    this.criaMensagem('Endereço incopativel com a base de dados do CEP', true)
+                }
+            })
+            .catch(e => {
+                this.criaErroCampo('CEP inválido', this.cep);
+                this.criaMensagem('CEP não existe', true);
+            });
+        }
     }
 
     verificaSenhas(){
@@ -144,8 +138,8 @@ class ValidaFormulario{
     criaMensagemCampo(msg, campo){ //apenas para testes
         const div = document.createElement('div');
         div.innerHTML = msg;
-        div.style.backgroundColor = 'green';
-        div.style.color = 'white';
+        div.style.color = 'green';
+        div.style.height = '50px';
         div.classList.add('test');
         campo.insertAdjacentElement('afterend', div);
     }
@@ -153,21 +147,21 @@ class ValidaFormulario{
     criaErroCampo(msg, campo){
         const div = document.createElement('div');
         div.innerHTML = msg;
-        div.style.backgroundColor = 'red';
+        div.style.color = 'red';
+        div.style.height = '50px';
         div.classList.add('error');
         campo.insertAdjacentElement('afterend', div);
     }
 
     criaMensagem(msg='Os dados foram enviados para o BD com sucesso', flagErro=false){
+        this.mensagem.style.marginTop = '30px';
+        this.mensagem.style.textAlign = 'center';
+        this.mensagem.innerHTML = msg;
         if(flagErro){
             this.mensagem.style.backgroundColor = 'red';
-            this.mensagem.style.textAlign = 'center';
-            this.mensagem.innerHTML = msg;
             return;
         }
         this.mensagem.style.backgroundColor = 'green';
-        this.mensagem.style.textAlign = 'center';
-        this.mensagem.innerHTML = msg;
         return;
     }
 

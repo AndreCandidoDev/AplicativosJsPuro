@@ -1,38 +1,34 @@
-const resultado = document.querySelector('.resultado');
-const tabela = document.createElement('table');
+const baseUrl = 'https://cep.awesomeapi.com.br/json/';
+const cep = '05424020'; //vem do form
+const endereco = 'Rua Professor Carlos Reis';
 
-function criaTabelaHeader(unidades){
-        tabela.className = 'tabela-resultado';
-        const thead = document.createElement('thead');
-        let tr = document.createElement('tr');
-        let th;
-        for(let i of unidades){
-            console.log(i);
-            th = document.createElement('th');
-            th.innerHTML = i
-            tr.appendChild(th);
+// fetch(baseUrl+cep)
+// .then(data => data.json())
+// .then(data => console.log(data))
+// .catch(e => console.log(e));
+
+function verificaEndereco(cep, endereco){
+    fetch(baseUrl+cep)
+    .then(data => data.json())
+    .then(data => {
+        if(cep === '' || endereco === ''){
+            console.log('erro');
+            console.log('manda mensagem de erro');
         }
-        thead.appendChild(tr);
-        tabela.appendChild(thead);
-        resultado.appendChild(tabela);
+        else{
+            const enderecoVerifica = endereco.toLowerCase();
+            const enderecoData = data['address'].toLowerCase();
+            if(enderecoVerifica === enderecoData){
+                console.log('passou na validação');
+                console.log('cria mensagem de sucesso e avança na validação');
+            }
+            else{
+                console.log('erro');
+                console.log('cria mensagem de erro de validação');
+            }
+        }
+    })
+    .catch(e => console.log(e));
 }
 
-function criaTabelaBody(valores){
-    const tbody = document.createElement('tbody');
-    tr = document.createElement('tr');
-    let td;
-    for(let i of valores){
-        td = document.createElement('td');
-        td.innerHTML = i;
-        tr.appendChild(td);
-    }
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-    tabela.appendChild(tbody);
-}
-
-const units = ['a', 'b', 'c', 'd'];
-const values = [1, 2, 3, 4];
-
-criaTabelaHeader(units);
-criaTabelaBody(values);
+verificaEndereco(cep,endereco);
