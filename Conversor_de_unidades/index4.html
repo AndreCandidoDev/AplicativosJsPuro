@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Conversor de unidades</title>
+</head>
+<body>
+    <section class="container">
+        <h1>Conversor de unidades</h1>
+        <br><h4>Unidades comportadas</h4>
+        <ul>
+            <li>Velocidade: m/s, km/h</li>
+            <li>Area: mm², cm², m², km²</li>
+            <li>Volume: mm³, cm³, m³, mL, L</li>
+            <li>Peso: mg, g, kg, ton</li>
+            <li>Temperatura: °C, °F, K</li>
+            <li>Tempo: s, min, h</li>
+        </ul>
+        <form method="POST" class="formulario"> 
+            <label>Tipo de unidade</label>
+            <input type="text" class="tipoUnidade" placeholder="velocidade, area, volume, peso, temperatura, tempo"> 
+            <label>Valor com unidade</label>
+            <input type="text" class="valor" placeholder="1-mm2 ou 1-mm² 1-ms ou 1-m/s 1-°C ou 1-c ou 1-C"> 
+            <button>Enviar</button>
+        </form>
+        <div class="resultado"></div>
+    </section>
+    <script src="assets/js/main4.js"></script>
+</body>
+</html>
+<!-- melhorias: criar seleção de tipos de unidades ou checkbox de inputs.
+    ao selecionar o campo input para valor e caixa de seleção de unidades aparecem, unidades essas
+    relacionadas ao tipo de unidade -->

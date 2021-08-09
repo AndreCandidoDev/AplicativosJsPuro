@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de testes</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <section class="container">
+        <h1>Formulário de testes</h1>
+        <ul>
+            <li>Nenhum campo pode estar vazio</li>
+            <li>Usuário deve ser maior de idade</li>
+            <li>Usuário só poderá conter letras e/ou numeros</li>
+            <li>Usuário deverá ter entre 3 e 12 caracteres</li>
+            <li>Senha precisa ter entre 6 e 12 caracteres</li>
+        </ul>
+        <form method="POST" class="formulario"> 
+            <label>Nome</label>
+            <input type="text" class="nome validar"> 
+            <label>Sobrenome</label>
+            <input type="text" class="sobrenome validar"> 
+            <label>Data de nascimento</label>
+            <input type="date" class="data validar" min="1900-01-01" max="2020-01-01">
+            <label>CPF</label>
+            <input type="text" class="cpf validar" maxlength="11" placeholder="Apenas numeros">
+            <label>Nome de usuario</label>
+            <input type="text" class="usuario validar">
+            <label>Email</label>
+            <input type="email" class="email">
+            <label>CEP</label>
+            <input type="text" class="cep validar" maxlength="8" placeholder="Apenas numeros">
+            <label>Endereço</label>
+            <input type="text" class="endereco validar">
+            <label>Senha</label>
+            <input type="password" class="senha validar">
+            <label>Confirme sua senha</label>
+            <input type="password" class="confirma-senha validar"> 
+            <button>Enviar</button>
+        </form>
+        <div class="mensagem"></div>
+    </section>
+    <script src="./assets/js/valida_cpf.js"></script>
+    <script src="./assets/js/valida_endereco.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
